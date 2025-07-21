@@ -1,4 +1,4 @@
-﻿namespace WebAPI.DAL.Entities
+﻿namespace Web.EntityLayer.Entities
 {
     public class About
     {
