@@ -1,6 +1,6 @@
 ﻿namespace Web.EntityLayer.Entities
 {
-    class Contact
+    public class Contact
     {
         public int ContactID { get; set; }
         public string Location { get; set; }

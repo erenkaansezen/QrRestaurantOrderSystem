@@ -1,6 +1,6 @@
 ﻿namespace Web.EntityLayer.Entities
 {
-    class Testimonial
+    public class Testimonial
     {
         public int TestimonialID { get; set; }
         public string Name { get; set; }
