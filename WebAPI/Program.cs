@@ -1,6 +1,11 @@
+using Web.BusinessLayer.Abstract;
+using Web.BusinessLayer.Concrete;
+using Web.DataAccessLayer.Concrete;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDbContext<WebContext>();
+builder.Services.AddScoped<IAboutService, AboutManager>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
