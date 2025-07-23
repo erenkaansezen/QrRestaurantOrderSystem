@@ -36,6 +36,11 @@ namespace Web.BusinessLayer.Concrete
             return _productDal.GetById(id);
         }
 
+        public List<Product> TGetProductsWithCategories()
+        {
+            return _productDal.GetProductsWithCategories();
+        }
+
         public void TUpdate(Product entity)
         {
             _productDal.Update(entity);

@@ -26,6 +26,14 @@ namespace WebAPI.Controllers
             var value = _mapper.Map<List<ResultProductDto>>(_productService.TGetAll());
             return Ok(value);
         }
+
+        [HttpGet("GetProductWithCategoryList")]
+        public IActionResult GetProductWithCategory(int id)
+        {
+            var value = _mapper.Map<List<ResultProductWithCategory>>(_productService.TGetProductsWithCategories());
+            return Ok(value);
+        }
+
         [HttpPost]
         public IActionResult CreateProduct(CreateProductDto createProductDto)
         {
