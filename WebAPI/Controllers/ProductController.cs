@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Web.BusinessLayer.Abstract;
+using Web.DataAccessLayer.Concrete;
 using Web.DtoLayer.FeatureDto;
 using Web.DtoLayer.ProductDto;
 using Web.EntityLayer.Entities;
@@ -28,10 +30,21 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("GetProductWithCategoryList")]
-        public IActionResult GetProductWithCategory(int id)
+        public IActionResult GetProductWithCategory()
         {
-            var value = _mapper.Map<List<ResultProductWithCategory>>(_productService.TGetProductsWithCategories());
-            return Ok(value);
+            var context = new WebContext();
+            var values = context.Products
+                .Include(p => p.Category).Select(y => new ResultProductWithCategory
+                {
+                    CategoryName = y.Category.CategoryName,
+                    Description = y.Description,
+                    ImageUrl = y.ImageUrl,
+                    Price = y.Price,
+                    ProductName = y.ProductName,
+                    ProductStatus = y.ProductStatus,
+                })
+                .ToList();
+            return Ok(values);
         }
 
         [HttpPost]

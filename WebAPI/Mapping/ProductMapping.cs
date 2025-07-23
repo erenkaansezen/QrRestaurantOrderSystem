@@ -9,6 +9,7 @@ namespace WebAPI.Mapping
         public ProductMapping()
         {
             CreateMap<Product, ResultProductDto>().ReverseMap();
+            CreateMap<Product, ResultProductWithCategory>().ReverseMap();
             CreateMap<Product, CreateProductDto>().ReverseMap();
             CreateMap<Product, UpdateProductDto>().ReverseMap();
             CreateMap<Product, GetProductDto>().ReverseMap();
