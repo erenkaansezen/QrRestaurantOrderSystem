@@ -13,7 +13,7 @@ namespace WebAPI.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-        public CategoryController(ICategoryService categoryService, IMapper mapper)
+        public CategoryController(ICategoryService categoryService,IMapper mapper)
         {
             _categoryService = categoryService;
             _mapper = mapper;
@@ -27,8 +27,11 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult CreateCategory(CreateCategoryDto createCategoryDto)
         {
-            var category = _mapper.Map<Category>(createCategoryDto);
-            _categoryService.TAdd(category);
+            _categoryService.TAdd(new Category()
+            {
+                CategoryName = createCategoryDto.CategoryName,
+                Status = createCategoryDto.Status
+            });
             return Ok("Kategori başarıyla eklendi");
         }
         [HttpDelete]
@@ -47,9 +50,14 @@ namespace WebAPI.Controllers
         [HttpPut]
         public IActionResult UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
-            var updateCategory = _mapper.Map<Category>(updateCategoryDto);
-            _categoryService.TUpdate(updateCategory);
+            _categoryService.TUpdate(new Category()
+            {
+                CategoryID = updateCategoryDto.CategoryID,
+                CategoryName = updateCategoryDto.CategoryName,
+                Status = updateCategoryDto.Status
+            });
             return Ok("Kategori başarıyla güncellendi");
+
         }
     }
 }
