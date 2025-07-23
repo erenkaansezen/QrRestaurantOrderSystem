@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.BusinessLayer.Abstract;
 using Web.DtoLayer.AboutDto;
+using Web.EntityLayer.Entities;
 
 namespace WebAPI.Controllers
 {
@@ -26,7 +27,13 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult CreateAbout(CreateAboutDto createAboutDto)
         {
-            _aboutService.TAdd(createAboutDto);
+            About about = new About
+            {
+                ImageUrl = createAboutDto.ImageUrl,
+                Title = createAboutDto.Title,
+                Description = createAboutDto.Description
+            };
+            _aboutService.TAdd(about);
             return Ok("Hakkında kısımı başarılı bir şekilde eklendi");
         }
 
@@ -41,7 +48,14 @@ namespace WebAPI.Controllers
         [HttpPut]
         public IActionResult UpdateAbout(UpdateAboutDto updateAboutDto)
         {
-            _aboutService.TUpdate(updateAboutDto);
+            About about = new About
+            {
+                AboutID = updateAboutDto.AboutID,
+                ImageUrl = updateAboutDto.ImageUrl,
+                Title = updateAboutDto.Title,
+                Description = updateAboutDto.Description
+            };
+            _aboutService.TUpdate(about);
             return Ok("Hakkında kısımı başarılı bir şekilde güncellendi");
         }
 
