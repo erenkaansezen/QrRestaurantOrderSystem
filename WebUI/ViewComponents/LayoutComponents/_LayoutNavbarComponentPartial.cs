@@ -2,12 +2,12 @@
 
 namespace WebUI.ViewComponents.LayoutComponents
 {
-    public class _LayoutSidebarComponentPartial : ViewComponent
+    public class _LayoutNavbarComponentPartial : ViewComponent
     {
         public IViewComponentResult Invoke()
         {
             return View();
         }
     }
- 
+    
 }
