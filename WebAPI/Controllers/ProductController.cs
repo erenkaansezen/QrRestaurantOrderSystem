@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
             });
             return Ok("Ürün başarıyla eklendi");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
             var value = _productService.TGetById(id);
