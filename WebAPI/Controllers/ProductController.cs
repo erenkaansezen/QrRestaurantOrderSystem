@@ -36,6 +36,7 @@ namespace WebAPI.Controllers
             var values = context.Products
                 .Include(p => p.Category).Select(y => new ResultProductWithCategory
                 {
+                    ProductID = y.ProductID,
                     CategoryName = y.Category.CategoryName,
                     Description = y.Description,
                     ImageUrl = y.ImageUrl,
@@ -56,8 +57,8 @@ namespace WebAPI.Controllers
                 ImageUrl = createProductDto.ImageUrl,
                 Price = createProductDto.Price,
                 ProductName = createProductDto.ProductName,
-                ProductStatus = createProductDto.ProductStatus                
-
+                ProductStatus = createProductDto.ProductStatus,                
+                CategoryId = createProductDto.CategoryID
             });
             return Ok("Ürün başarıyla eklendi");
         }
@@ -68,7 +69,7 @@ namespace WebAPI.Controllers
             _productService.TDelete(value);
             return Ok("Ürün başarıyla silindi");
         }
-        [HttpGet("GetProduct")]
+        [HttpGet("{id}")]
         public IActionResult GetProduct(int id)
         {
             var value = _productService.TGetById(id);
@@ -77,14 +78,15 @@ namespace WebAPI.Controllers
         [HttpPut]
         public IActionResult UpdateProduct(UpdateProductDto updateProductDto)
         {
-            _productService.TAdd(new Product()
+            _productService.TUpdate(new Product()
             {
                 ProductID = updateProductDto.ProductID,
                 Description = updateProductDto.Description,
                 ImageUrl = updateProductDto.ImageUrl,
                 Price = updateProductDto.Price,
                 ProductName = updateProductDto.ProductName,
-                ProductStatus = updateProductDto.ProductStatus
+                ProductStatus = updateProductDto.ProductStatus,
+                CategoryId = updateProductDto.CategoryID
                 
 
             });
