@@ -41,14 +41,14 @@ namespace WebAPI.Controllers
             });
             return Ok("Yorum bilgisi başarıyla eklendi");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteTestimoinal(int id)
         {
             var value = _testimonialService.TGetById(id);
             _testimonialService.TDelete(value);
             return Ok("Yorum bilgisi başarıyla silindi");
         }
-        [HttpGet("GetTestimoinal")]
+        [HttpGet("{id}")]
         public IActionResult GetTestimoinal(int id)
         {
             var value = _testimonialService.TGetById(id);
@@ -57,7 +57,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public IActionResult UpdateTestimoinal(UpdateTestimonialDto updateTestimonialDto)
         {
-            _testimonialService.TAdd(new Testimonial()
+            _testimonialService.TUpdate(new Testimonial()
             {
                 TestimonialID = updateTestimonialDto.TestimonialID,
                 Comment = updateTestimonialDto.Comment,

@@ -37,14 +37,14 @@ namespace WebAPI.Controllers
             });
             return Ok("Sosyal medya bilgisi başarıyla eklendi");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteSocialMedia(int id)
         {
             var value = _socialMediaService.TGetById(id);
             _socialMediaService.TDelete(value);
             return Ok("Sosyal medya bilgisi başarıyla silindi");
         }
-        [HttpGet("GetSocialMedia")]
+        [HttpGet("{id}")]
         public IActionResult GetSocialMedia(int id)
         {
             var value = _socialMediaService.TGetById(id);

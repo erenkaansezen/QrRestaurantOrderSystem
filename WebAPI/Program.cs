@@ -4,8 +4,22 @@ using Web.BusinessLayer.Concrete;
 using Web.DataAccessLayer.Abstract;
 using Web.DataAccessLayer.Concrete;
 using Web.DataAccessLayer.EntityFramework;
+using WebAPI.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+        policy
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .WithOrigins("https://localhost:7060"); // WebUI portunu yaz buraya
+    });
+});
+builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<WebContext>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -52,11 +66,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapHub<WebHub>("/WebHub");
 app.Run();
