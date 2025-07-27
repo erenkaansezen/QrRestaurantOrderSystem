@@ -126,5 +126,10 @@ namespace WebAPI.Controllers
         {
             return Ok(_productService.TProductNameByPriceByMin());
         }
+        [HttpGet("ProductAvgPriceByHamburger")]
+        public IActionResult ProductAvgPriceByHamburger(int id)
+        {
+            return Ok(_productService.TProductAvgPriceByHamburger());
+        }
     }
 }

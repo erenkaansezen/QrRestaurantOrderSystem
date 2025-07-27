@@ -68,5 +68,12 @@ namespace Web.DataAccessLayer.EntityFramework
             return context.Products
                 .Average(x => x.Price);
         }
+
+        public decimal ProductAvgPriceByHamburger()
+        {
+            using var context = new WebContext();
+            return context.Products.Where(x => x.CategoryId == (context.Categories.Where(y => y.CategoryName == "Burgerler").Select(y => y.CategoryID).FirstOrDefault()))
+                .Average(x => x.Price);
+        }
     }
 }

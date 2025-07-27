@@ -41,6 +41,11 @@ namespace Web.BusinessLayer.Concrete
             return _productDal.GetProductsWithCategories();
         }
 
+        public decimal TProductAvgPriceByHamburger()
+        {
+            return _productDal.ProductAvgPriceByHamburger();
+        }
+
         public int TProductCount()
         {
             return _productDal.ProductCount();
