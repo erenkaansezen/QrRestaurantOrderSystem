@@ -2,13 +2,9 @@
 
 namespace WebUI.Controllers
 {
-    public class SıgnalRDefault : Controller
+    public class StatisticController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Index2()
         {
             return View();
         }

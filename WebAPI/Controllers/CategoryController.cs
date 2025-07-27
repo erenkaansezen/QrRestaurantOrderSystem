@@ -24,6 +24,24 @@ namespace WebAPI.Controllers
             var value = _mapper.Map<List<ResultCategoryDto>>(_categoryService.TGetAll());
             return Ok(value);
         }
+
+        [HttpGet("CategoryCount")]
+        public IActionResult CategoryCount(int id)
+        {
+            return Ok(_categoryService.TCategoryCount());
+        }
+        [HttpGet("ActiveCategoryCount")]
+        public IActionResult ActiveCategoryCount(int id)
+        {
+            return Ok(_categoryService.TActiveCategoryCount());
+        }
+        [HttpGet("PassiveCategoryCount")]
+        public IActionResult PassiveCategoryCount(int id)
+        {
+            return Ok(_categoryService.TPassiveCategoryCount());
+        }
+
+
         [HttpPost]
         public IActionResult CreateCategory(CreateCategoryDto createCategoryDto)
         {

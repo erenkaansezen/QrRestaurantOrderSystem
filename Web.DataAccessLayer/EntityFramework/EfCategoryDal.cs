@@ -15,5 +15,23 @@ namespace Web.DataAccessLayer.EntityFramework
         public EfCategoryDal(WebContext context) : base(context)
         {
         }
+
+        public int ActiveCategoryCount()
+        {
+            using var context = new WebContext();
+            return context.Categories.Count(c => c.Status == true);
+        }
+
+        public int CategoryCount()
+        { 
+            using var context = new WebContext();
+            return context.Categories.Count();
+        }
+
+        public int PassiveCategoryCount()
+        {
+            using var context = new WebContext();
+            return context.Categories.Count(c => c.Status == false);
+        }
     }
 }

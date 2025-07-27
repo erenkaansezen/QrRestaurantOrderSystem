@@ -25,5 +25,23 @@ namespace Web.DataAccessLayer.EntityFramework
 
             return values;
         }
+
+        public int ProductCount()
+        {
+            using var context = new WebContext();
+            return context.Products.Count();
+        }
+
+        public int ProductCountByCategoryDrink()
+        {
+            using var context = new WebContext();
+            return context.Products.Count(x=> x.CategoryId==(context.Categories.Where(y=>y.CategoryName == "Içecekler").Select(y => y.CategoryID).FirstOrDefault()));
+        }
+
+        public int ProductCountByCategoryHamburger()
+        {
+            using var context = new WebContext();
+            return context.Products.Count(x => x.CategoryId == (context.Categories.Where(y => y.CategoryName == "Burgerler").Select(y => y.CategoryID).FirstOrDefault()));
+        }
     }
 }

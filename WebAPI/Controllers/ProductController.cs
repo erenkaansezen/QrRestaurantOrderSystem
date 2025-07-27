@@ -28,6 +28,21 @@ namespace WebAPI.Controllers
             var value = _mapper.Map<List<ResultProductDto>>(_productService.TGetAll());
             return Ok(value);
         }
+        [HttpGet("ProductCount")]
+        public IActionResult ProductCount(int id)
+        {
+            return Ok(_productService.TProductCount());
+        }
+        [HttpGet("ProductCountByDrink")]
+        public IActionResult ProductCountByDrink(int id)
+        {
+            return Ok(_productService.TProductCountByCategoryDrink());
+        }
+        [HttpGet("ProductCountByHamburger")]
+        public IActionResult ProductCountByHamburger(int id)
+        {
+            return Ok(_productService.TProductCountByCategoryHamburger());
+        }
 
         [HttpGet("GetProductWithCategoryList")]
         public IActionResult GetProductWithCategory()

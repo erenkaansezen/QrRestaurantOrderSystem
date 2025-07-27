@@ -11,19 +11,24 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                        <script type="text/javascript">
-                            $(document).ready(() => {
-                                const connection = new signalR.HubConnectionBuilder()
-                                    .withUrl("https://localhost:7239/WebHub")
-                                    .build();
+                    <script type="text/javascript">
+                        $(document).ready(() => {
+                            const connection = new signalR.HubConnectionBuilder()
+                                .withUrl("https://localhost:7239/WebHub")
+                                .build();
 
-                                connection.start().then(() => {
-                                    $("#connstatus").text(connection.state);
-                                }).catch((err) => {
-                                    console.error(err);
-                                });
+                            connection.start().then(() => {
+                                $("#connstatus").text(connection.state);
+                                connection.invoke("SendCategoryCount");
+                            }).catch((err) => {
+                                console.error(err);
                             });
-                        </script>
+
+                            connection.on("ReceiveCategoryCount", (value) => {
+                                $("#categorycount").text(value);
+                            });
+                        });
+                    </script>
 
                         </div>
                     </div>
