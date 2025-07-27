@@ -43,5 +43,30 @@ namespace Web.DataAccessLayer.EntityFramework
             using var context = new WebContext();
             return context.Products.Count(x => x.CategoryId == (context.Categories.Where(y => y.CategoryName == "Burgerler").Select(y => y.CategoryID).FirstOrDefault()));
         }
+
+        public string ProductNameByPriceByMax()
+        {
+            using var context = new WebContext();
+            return context.Products
+                .OrderByDescending(x => x.Price)
+                .Select(x => x.ProductName)
+                .FirstOrDefault();
+        }
+
+        public string ProductNameByPriceByMin()
+        {
+            using var context = new WebContext();
+            return context.Products
+                .OrderBy(x => x.Price)
+                .Select(x => x.ProductName)
+                .FirstOrDefault();
+        }
+
+        public decimal ProductPriceAvg()
+        {
+            using var context = new WebContext();
+            return context.Products
+                .Average(x => x.Price);
+        }
     }
 }

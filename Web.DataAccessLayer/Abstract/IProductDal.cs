@@ -13,6 +13,9 @@ namespace Web.DataAccessLayer.Abstract
          int ProductCount();
          int ProductCountByCategoryHamburger();
          int ProductCountByCategoryDrink();
+         decimal ProductPriceAvg();
+         string ProductNameByPriceByMax();
+         string ProductNameByPriceByMin();
 
 
     }

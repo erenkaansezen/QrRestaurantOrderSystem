@@ -13,5 +13,8 @@ namespace Web.BusinessLayer.Abstract
         public int TProductCount();
         int TProductCountByCategoryHamburger();
         int TProductCountByCategoryDrink();
+        decimal TProductPriceAvg();
+        string TProductNameByPriceByMax();
+        string TProductNameByPriceByMin();
     }
 }

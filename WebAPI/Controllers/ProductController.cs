@@ -22,26 +22,12 @@ namespace WebAPI.Controllers
             _mapper = mapper;
         }
 
+        //Veri üzerindeki işlemler
         [HttpGet]
         public IActionResult GetProductList()
         {
             var value = _mapper.Map<List<ResultProductDto>>(_productService.TGetAll());
             return Ok(value);
-        }
-        [HttpGet("ProductCount")]
-        public IActionResult ProductCount(int id)
-        {
-            return Ok(_productService.TProductCount());
-        }
-        [HttpGet("ProductCountByDrink")]
-        public IActionResult ProductCountByDrink(int id)
-        {
-            return Ok(_productService.TProductCountByCategoryDrink());
-        }
-        [HttpGet("ProductCountByHamburger")]
-        public IActionResult ProductCountByHamburger(int id)
-        {
-            return Ok(_productService.TProductCountByCategoryHamburger());
         }
 
         [HttpGet("GetProductWithCategoryList")]
@@ -107,6 +93,38 @@ namespace WebAPI.Controllers
             });
             return Ok("Ürün başarıyla güncellendi");
 
+        }
+
+        //İstatistiksel işlemler
+        [HttpGet("ProductCount")]
+        public IActionResult ProductCount(int id)
+        {
+            return Ok(_productService.TProductCount());
+        }
+        [HttpGet("ProductCountByDrink")]
+        public IActionResult ProductCountByDrink(int id)
+        {
+            return Ok(_productService.TProductCountByCategoryDrink());
+        }
+        [HttpGet("ProductCountByHamburger")]
+        public IActionResult ProductCountByHamburger(int id)
+        {
+            return Ok(_productService.TProductCountByCategoryHamburger());
+        }
+        [HttpGet("ProductPriceAvg")]
+        public IActionResult ProductPriceAvg(int id)
+        {
+            return Ok(_productService.TProductPriceAvg());
+        }
+        [HttpGet("ProductNameByPriceByMax")]
+        public IActionResult ProductNameByPriceByMax(int id)
+        {
+            return Ok(_productService.TProductNameByPriceByMax());
+        }
+        [HttpGet("ProductNameByPriceByMin")]
+        public IActionResult ProductNameByPriceByMin(int id)
+        {
+            return Ok(_productService.TProductNameByPriceByMin());
         }
     }
 }

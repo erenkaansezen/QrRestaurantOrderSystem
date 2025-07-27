@@ -56,6 +56,21 @@ namespace Web.BusinessLayer.Concrete
             return _productDal.ProductCountByCategoryHamburger();
         }
 
+        public string TProductNameByPriceByMax()
+        {
+            return _productDal.ProductNameByPriceByMax();
+        }
+
+        public string TProductNameByPriceByMin()
+        {
+            return _productDal.ProductNameByPriceByMin();
+        }
+
+        public decimal TProductPriceAvg()
+        {
+            return _productDal.ProductPriceAvg();
+        }
+
         public void TUpdate(Product entity)
         {
             _productDal.Update(entity);
