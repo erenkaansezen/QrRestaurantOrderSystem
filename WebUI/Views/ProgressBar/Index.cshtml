@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(() => {
+
+		const connection = new signalR.HubConnectionBuilder()
+			.withUrl("https://localhost:7239/WebHub")
+			.build();
+
+		connection.start().then(() => {
+			$("#connstatus").text(connection.state);
+			setInterval(() =>{
+							   connection.invoke("SendProgress");
+			},1000);
+		}).catch((err) => {
+			console.error(err);
+		});
+
+		connection.on("ReceiveTotalMoneyCaseAmount", (value) => {
+			$("#totalmoneycaseamount").text(value);
+		});
+		connection.on("ReceiveCountDailyEarnings", (value) => {
+			$("#countdailyearnings").text(value);
+		});
+		connection.on("ReceiveActiveOrderCount", (value) => {
+			$("#activeordercount").text(value);
+		});
+		connection.on("ReceiveNumberOfEmptyTables", (value) => {
+			$("#numberofemptytables").text(value);
+		});
+	});
+</script>
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Restoran Durumları</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row row-card-no-pd">
+					<div class="col-md-4">
+						<div class="card">
+							<div class="card-body">
+								<p class="fw-bold mt-1">Kasa Tutarı</p>
+								<h4 id="totalmoneycaseamount"></h4>
+							</div>
+							<div class="card-body">
+								<p class="fw-bold mt-1">Günlük Toplam Kazanç</p>
+								<h4 id="countdailyearnings"></h4>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="card">
+							<div class="card-body">
+								<div class="progress-card">
+									<div class="d-flex justify-content-between mb-1">
+										<span class="text-muted">Profit</span>
+										<span class="text-muted fw-bold"> $3K</span>
+									</div>
+									<div class="progress mb-2" style="height: 7px;">
+										<div class="progress-bar bg-success" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="78%"></div>
+									</div>
+								</div>
+								<div class="progress-card">
+									<div class="d-flex justify-content-between mb-1">
+										<span class="text-muted">Orders</span>
+										<span class="text-muted fw-bold"> 576</span>
+									</div>
+									<div class="progress mb-2" style="height: 7px;">
+										<div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="65%"></div>
+									</div>
+								</div>
+								<div class="progress-card">
+									<div class="d-flex justify-content-between mb-1">
+										<span class="text-muted">Tasks Complete</span>
+										<span class="text-muted fw-bold"> 70%</span>
+									</div>
+									<div class="progress mb-2" style="height: 7px;">
+										<div class="progress-bar bg-primary" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="70%"></div>
+									</div>
+								</div>
+								<div class="progress-card">
+									<div class="d-flex justify-content-between mb-1">
+										<span class="text-muted">Open Rate</span>
+										<span class="text-muted fw-bold"> 60%</span>
+									</div>
+									<div class="progress mb-2" style="height: 7px;">
+										<div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="60%"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card card-stats">
+							<div class="card-body">
+								<div class="row">
+									<br />
+									<div class="col-5">
+										<div class="icon-big text-center icon-warning">
+											<h2>🍽️</h2>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<div class="numbers">
+											<p class="card-category text-center">Dolu Masa Sayısı</p>
+											<h4 class="card-title text-center" id="activeordercount"></h4>
+										</div>
+									</div>
+								</div>
+								<hr />
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+											<h2>⛩</h2>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<div class="numbers">
+											<p class="card-category text-center">Boş Masa Sayısı</p>
+											<h4 class="card-title text-center" id="numberofemptytables"></h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+

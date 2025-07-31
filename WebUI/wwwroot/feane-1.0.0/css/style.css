@@ -1,0 +1,102 @@
+/* ======================= */
+/* Global Reset and Config */
+/* ======================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    color: #0c0c0c;
+    line-height: 1.5;
+}
+
+    /* Clear default margin from body caused by some browsers */
+    body::before, body::after {
+        display: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+/* Ensure hero area and background image cover full height */
+.hero_area {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.bg-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+    .bg-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+
+/* Header section fix to remove unwanted padding/margin */
+.header_section {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+}
+
+    .header_section .container,
+    .header_section .container-fluid {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+/* General utility spacing */
+.layout_padding {
+    padding: 90px 0;
+}
+
+.layout_padding2 {
+    padding: 75px 0;
+}
+
+.layout_padding2-top {
+    padding-top: 75px;
+}
+
+.layout_padding2-bottom {
+    padding-bottom: 75px;
+}
+
+.layout_padding-top {
+    padding-top: 90px;
+}
+
+.layout_padding-bottom {
+    padding-bottom: 90px;
+}
+
+/* Optional visual aid during debugging */
+/* html, body, .hero_area, .header_section {
+  outline: 1px solid red;
+} */

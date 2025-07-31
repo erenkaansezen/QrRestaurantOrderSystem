@@ -21,6 +21,11 @@ namespace Web.DataAccessLayer.EntityFramework
             using var context = new WebContext();
             return context.MenuTables.Count();
         }
+        public int NumberOfEmptyTables()
+        {
+            using var context = new WebContext();
+            return context.Orders.Count(x => x.Description == "Hesap Kapatildi");
+        }
     }
 
 }

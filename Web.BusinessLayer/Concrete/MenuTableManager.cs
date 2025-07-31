@@ -41,6 +41,11 @@ namespace Web.BusinessLayer.Concrete
             return _menuTableDal.MenuTableCount();
         }
 
+        public int TNumberOfEmptyTables()
+        {
+            return _menuTableDal.NumberOfEmptyTables();
+        }
+
         public void TUpdate(MenuTable entity)
         {
             throw new NotImplementedException();

@@ -22,6 +22,7 @@ namespace Web.DataAccessLayer.EntityFramework
             return context.Orders.Count(x => x.Description == "Müşteri Masada");
         }
 
+
         public decimal LastOrderPrice()
         {
             using var context = new WebContext();

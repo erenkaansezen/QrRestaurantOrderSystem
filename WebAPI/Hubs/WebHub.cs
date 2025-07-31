@@ -70,5 +70,20 @@ namespace WebAPI.Hubs
             var countMenuTable = _menuTableService.TMenuTableCount();
             await Clients.All.SendAsync("ReceiveMenuTableCount", countMenuTable);
         }
+
+        public async Task SendProgress()
+        {
+            var totalMoneyCaseAmount = _moneyCaseService.TTotalMoneyCaseAmount();
+            await Clients.All.SendAsync("ReceiveTotalMoneyCaseAmount", totalMoneyCaseAmount.ToString("0.00") + "₺");
+
+            var countDailyEarnings = 1000;
+            await Clients.All.SendAsync("ReceiveCountDailyEarnings", countDailyEarnings.ToString("0.00") + "₺");
+
+            var countActiveOrder = _orderService.TActiveOrderCount();
+            await Clients.All.SendAsync("ReceiveActiveOrderCount", countActiveOrder);
+
+            var countEmptyTables = _menuTableService.TNumberOfEmptyTables();
+            await Clients.All.SendAsync("ReceiveNumberOfEmptyTables", countEmptyTables);
+        }
     }
 }
