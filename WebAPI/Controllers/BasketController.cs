@@ -35,15 +35,15 @@ namespace WebAPI.Controllers
                 {
                     BasketId = z.BasketId,
                     Count = z.Count,
-                    MenuTableId= z.MenuTableId,
+                    MenuTableId = z.MenuTableId,
                     Price = z.Price,
                     ProductID = z.ProductID,
                     TotalPrice = z.TotalPrice,
-                    ProductName=z.Product.ProductName
+                    ProductName = z.Product.ProductName
                 }).ToList();
             return Ok(values);
         }
-        [HttpPost] 
+        [HttpPost]
         public IActionResult CreateBasket(CreateBasketDto createBasketDto)
         {
             using var context = new WebContext();
@@ -58,6 +58,17 @@ namespace WebAPI.Controllers
                 TotalPrice = 0,
             });
             return Ok();
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteBasket(int id)
+        {
+            var value = _basketService.TGetById(id);
+            if (value != null)
+            {
+                _basketService.TDelete(value);
+                return Ok("Sepet başarıyla silindi");
+            }
+            return NotFound("Sepet bulunamadı");
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿@model List<ResultBasketDto>
 @{
     Layout = null;
-    int count = 1;  
+    int count = 1;
+    decimal basketTotalPrice = 0;
+    decimal kdv = 0;
+    decimal basketTotalPriceWithKdv = 0;
 }
 
 <!DOCTYPE html>
@@ -45,6 +48,11 @@
                     </thead>
                     @foreach(var item in Model)
                     {
+                        basketTotalPrice = Model.Sum(x => x.Price);
+                        kdv = basketTotalPrice / 100 * 10;
+                        basketTotalPriceWithKdv = basketTotalPrice + kdv; 
+
+                        count++;
                         <tbody>
                             <tr>
                                 <td class="align-middle">@count</td>
@@ -52,7 +60,11 @@
                                 <td class="align-middle">@item.Count</td>
                                 <td class="align-middle">@item.Price</td>
                                 <td class="align-middle">@item.TotalPrice</td>
-                                <td class="align-middle btn-delete"><button data-basketid="@item.BasketId" id="btndeletebasketid" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
+                                <td class="align-middle btn-delete">
+                                    <a data-basketid="@item.BasketId" id="btndeletebasketid" class="btn btn-sm btn-danger" href="/Basket/DeleteBasket/@item.BasketId">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
 
                             </tr>
                         </tbody>
@@ -75,11 +87,11 @@
                     <div id="container" class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Toplam Tutar</h6>
-                            <h6><span id="totalprice">200 Tl</span></h6>                          
+                            <h6><span id="totalprice">@basketTotalPrice</span></h6>                          
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Kdv Oranı</h6>
-                            <h6 id="kdv" class="font-weight-medium">24 Tl</h6>
+                            <h6 id="kdv" class="font-weight-medium">@kdv</h6>
                         </div>
                         <br />
                     </div>
@@ -87,7 +99,7 @@
                         <div class="pt-2">
                             <div class="d-flex justify-content-between mt-2">
                                 <h5>Toplam Tutar</h5>
-                                <h5><span id="totalpricewithkdv">224 Tl</span></h5>
+                                <h5><span id="totalpricewithkdv">@basketTotalPriceWithKdv</span></h5>
                             </div>
                         </div>
                         <br />
