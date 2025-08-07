@@ -12,8 +12,9 @@ namespace WebAPI.Hubs
         private readonly IOrderService _orderService;
         private readonly IMoneyCaseService _moneyCaseService;
         private readonly IMenuTableService _menuTableService;
+        private readonly IBookingService _bookingService;
 
-        public WebHub(ICategoryService categoryService, IProductService productService, IOrderService orderService, IOrderDetailService orderDetailService, IMoneyCaseService moneyCaseService, IMenuTableService menuTableService)
+        public WebHub(ICategoryService categoryService, IProductService productService, IOrderService orderService, IOrderDetailService orderDetailService, IMoneyCaseService moneyCaseService, IMenuTableService menuTableService, IBookingService bookingService)
         {
             _categoryService = categoryService;
             _productService = productService;
@@ -21,6 +22,7 @@ namespace WebAPI.Hubs
             _orderDetailService = orderDetailService;
             _moneyCaseService = moneyCaseService;
             _menuTableService = menuTableService;
+            _bookingService = bookingService;
         }
 
         public async Task SendStatistic()
@@ -84,6 +86,12 @@ namespace WebAPI.Hubs
 
             var countEmptyTables = _menuTableService.TNumberOfEmptyTables();
             await Clients.All.SendAsync("ReceiveNumberOfEmptyTables", countEmptyTables);
+        }
+
+        public async Task GetBookingList()
+        {
+            var bookingList = _bookingService.TGetAll();
+            await Clients.All.SendAsync("ReceiveBookingList", bookingList);
         }
     }
 }
