@@ -82,5 +82,19 @@ namespace WebUI.Controllers
             }
             return View();
         }
+        public async Task<IActionResult> ChangeNotificationStatusTrue(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            await client.GetAsync($"https://localhost:7239/api/Notification/NotificationStatusChangeTrue/{id}");
+            return RedirectToAction("Index");
+            
+        }
+        public async Task<IActionResult> ChangeNotificationStatusFalse(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            await client.GetAsync($"https://localhost:7239/api/Notification/NotificationStatusChangeFalse/{id}");
+            return RedirectToAction("Index");
+           
+        }
     }
 }

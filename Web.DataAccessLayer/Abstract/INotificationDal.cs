@@ -11,6 +11,9 @@ namespace Web.DataAccessLayer.Abstract
     {
         int NotificationCountStatusFalse();
         List<Notification> GetAllNotificationsByStatusFalse();
+        void NotificationStatusChangeTrue(int id);
+        void NotificationStatusChangeFalse(int id);
+
 
     }
 }

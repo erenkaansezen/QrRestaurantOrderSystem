@@ -27,5 +27,21 @@ namespace Web.DataAccessLayer.EntityFramework
             using var context = new WebContext();
             return context.Notifications.Count(x => x.Status == false);
         }
+
+        public void NotificationStatusChangeFalse(int id)
+        {
+            using var context = new WebContext();
+            var notification = context.Notifications.Find(id);
+            notification.Status = false;
+            context.SaveChanges();
+        }
+
+        public void NotificationStatusChangeTrue(int id)
+        {
+            using var context = new WebContext();
+            var notification = context.Notifications.Find(id);
+            notification.Status = true;
+            context.SaveChanges();
+        }
     }
 }

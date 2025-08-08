@@ -75,5 +75,17 @@ namespace WebAPI.Controllers
             _notificationService.TUpdate(notification);
             return Ok("Bildirim Güncelleme İşlemi Yapıldı");
         }
+        [HttpGet("NotificationStatusChangeTrue/{id}")]
+        public IActionResult NotificationStatusChangeTrue(int id)
+        {
+            _notificationService.TNotificationStatusChangeTrue(id);
+            return Ok("Bildirim Durumu True Olarak Güncellendi");
+        }
+        [HttpGet("NotificationStatusChangeFalse/{id}")]
+        public IActionResult NotificationStatusChangeFalse(int id)
+        {
+            _notificationService.TNotificationStatusChangeFalse(id);
+            return Ok("Bildirim Durumu False Olarak Güncellendi");
+        }
     }
 }
