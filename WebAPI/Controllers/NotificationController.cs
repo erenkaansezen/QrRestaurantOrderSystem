@@ -41,13 +41,13 @@ namespace WebAPI.Controllers
                 Type = createNotificationDto.Type,
                 Icon = createNotificationDto.Icon,
                 Description = createNotificationDto.Description,
-                Date = createNotificationDto.Date,
-                Status = createNotificationDto.Status
+                Date = Convert.ToDateTime(DateTime.Now.ToShortDateString()),
+                Status = false,
             };
             _notificationService.TAdd(notification);
             return Ok("Bildirim Ekleme İşlemi Yapıldı");
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteNotification(int id)
         {
             var notification = _notificationService.TGetById(id);
