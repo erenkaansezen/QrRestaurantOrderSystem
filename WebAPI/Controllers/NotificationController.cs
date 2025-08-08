@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Web.BusinessLayer.Abstract;
+using Web.DtoLayer.NotificationDto;
+using Web.EntityLayer.Entities;
 
 namespace WebAPI.Controllers
 {
@@ -30,6 +32,48 @@ namespace WebAPI.Controllers
         {
             var notifications = _notificationService.TGetAllNotificationsByStatusFalse();
             return Ok(notifications);
+        }
+        [HttpPost]
+        public IActionResult CreateNotification(CreateNotificationDto createNotificationDto)
+        {
+            Notification notification = new Notification
+            {
+                Type = createNotificationDto.Type,
+                Icon = createNotificationDto.Icon,
+                Description = createNotificationDto.Description,
+                Date = createNotificationDto.Date,
+                Status = createNotificationDto.Status
+            };
+            _notificationService.TAdd(notification);
+            return Ok("Bildirim Ekleme İşlemi Yapıldı");
+        }
+        [HttpDelete]
+        public IActionResult DeleteNotification(int id)
+        {
+            var notification = _notificationService.TGetById(id);
+            _notificationService.TDelete(notification);
+            return Ok("Bildirim Silinme İşlemi Yapıldı");
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetNotificationById(int id)
+        {
+            var notification = _notificationService.TGetById(id);
+            return Ok(notification);
+        }
+        [HttpPut]
+        public IActionResult UpdateNotification(UpdateNotificationDto updateNotificationDto)
+        {
+            Notification notification = new Notification
+            {
+                NotificationID = updateNotificationDto.NotificationID,
+                Type = updateNotificationDto.Type,
+                Icon = updateNotificationDto.Icon,
+                Description = updateNotificationDto.Description,
+                Date = updateNotificationDto.Date,
+                Status = updateNotificationDto.Status
+            };
+            _notificationService.TUpdate(notification);
+            return Ok("Bildirim Güncelleme İşlemi Yapıldı");
         }
     }
 }
