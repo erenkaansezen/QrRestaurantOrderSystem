@@ -15,6 +15,7 @@ namespace WebAPI.Hubs
         private readonly IBookingService _bookingService;
         private readonly INotificationService _notificationService;
 
+
         public WebHub(ICategoryService categoryService, IProductService productService, IOrderService orderService, IOrderDetailService orderDetailService, IMoneyCaseService moneyCaseService, IMenuTableService menuTableService, IBookingService bookingService, INotificationService notificationService)
         {
             _categoryService = categoryService;
@@ -26,7 +27,7 @@ namespace WebAPI.Hubs
             _bookingService = bookingService;
             _notificationService = notificationService;
         }
-
+        int ClientCount = 0;
         public async Task SendStatistic()
         {
             var countCategory=_categoryService.TCategoryCount();
@@ -104,6 +105,28 @@ namespace WebAPI.Hubs
             var notificationsList = _notificationService.TGetAllNotificationsByStatusFalse();
             await Clients.All.SendAsync("ReceiveAllNotificationsByStatusFalse", notificationsList);
 
+        }
+
+        public async Task GetTableStatus()
+        {
+            var value = _menuTableService.TGetAll();
+            await Clients.All.SendAsync("ReceiveTableStatus", value);
+        }
+        public async Task SendMessage(string user,string message)
+        { 
+            await Clients.All.SendAsync("ReceiveMessage", user, message);
+        }
+        public override async Task OnConnectedAsync()
+        {
+            ClientCount++;
+            await Clients.All.SendAsync("ReceiveClientCount", ClientCount);
+            await base.OnConnectedAsync();
+        }
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            ClientCount--;
+            await Clients.All.SendAsync("ReceiveClientCount", ClientCount);
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }

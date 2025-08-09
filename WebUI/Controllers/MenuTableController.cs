@@ -35,7 +35,7 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTable(CreateMenuTableDto createMenuTableDto)
         {
-            createMenuTableDto.Status = false; 
+            createMenuTableDto.Status = false;
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(createMenuTableDto);
             StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -82,6 +82,20 @@ namespace WebUI.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> TableListByStatus()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7239/api/MenuTable");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<List<ResultMenuTableDto>>(jsonData);
+                return View(values);
+            }
+            return View();
+
         }
     }
 }
