@@ -32,6 +32,7 @@ namespace WebAPI.Controllers
                 Name = createBookingDto.Name,
                 PersonCount = createBookingDto.PersonCount,
                 Phone = createBookingDto.Phone,
+                Description = createBookingDto.Description,
             };
             _bookingService.TAdd(booking);
             return Ok("Rezervasyon yapıldı");
@@ -65,6 +66,18 @@ namespace WebAPI.Controllers
             var value = _bookingService.TGetById(id);
             return Ok(value);
 
+        }
+        [HttpGet("BookingStatusApproved/{id}")]
+        public IActionResult BookingStatusApproved(int id)
+        {
+            _bookingService.BookingStatusApproved(id);
+            return Ok("Rezervasyon onaylandı");
+        }
+        [HttpGet("BookingStatusCancelled/{id}")]
+        public IActionResult BookingStatusCancelled(int id)
+        {
+            _bookingService.BookingStatusCancelled(id);
+            return Ok("Rezervasyon iptal edildi");
         }
     }
 }

@@ -27,7 +27,7 @@ namespace WebAPI.Hubs
             _bookingService = bookingService;
             _notificationService = notificationService;
         }
-        int ClientCount = 0;
+        public static int clientCount { get; set; } = 0;
         public async Task SendStatistic()
         {
             var countCategory=_categoryService.TCategoryCount();
@@ -118,14 +118,14 @@ namespace WebAPI.Hubs
         }
         public override async Task OnConnectedAsync()
         {
-            ClientCount++;
-            await Clients.All.SendAsync("ReceiveClientCount", ClientCount);
+            clientCount++;
+            await Clients.All.SendAsync("ReceiveClientCount", clientCount);
             await base.OnConnectedAsync();
         }
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            ClientCount--;
-            await Clients.All.SendAsync("ReceiveClientCount", ClientCount);
+            clientCount--;
+            await Clients.All.SendAsync("ReceiveClientCount", clientCount);
             await base.OnDisconnectedAsync(exception);
         }
     }

@@ -61,6 +61,10 @@ namespace WebAPI.Controllers
                     Location = updateContactDto.Location,
                     Mail = updateContactDto.Mail,
                     Phone = updateContactDto.Phone,
+                    FooterTitle = updateContactDto.FooterTitle,
+                    OpenDays = updateContactDto.OpenDays,
+                    OpenDaysDescription = updateContactDto.OpenDaysDescription,
+                    OpenHours = updateContactDto.OpenHours
                 });
             return Ok("İletişim bilgisi başarıyla güncellendi");
 

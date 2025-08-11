@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Web.EntityLayer.Entities;
 
 
 namespace Web.DataAccessLayer.Concrete
 {
-    public class WebContext : DbContext
+    public class WebContext : IdentityDbContext<AppUser, AppRole, int> // Using IdentityDbContext to include Identity features
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=Sezen;initial Catalog=RestaurantDB;integrated Security=true;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Server=Sezen;initial Catalog=WebSezenCoRestaurant;integrated Security=true;TrustServerCertificate=True");
         }
 
         public DbSet<About> Abouts { get; set; }
@@ -27,6 +28,7 @@ namespace Web.DataAccessLayer.Concrete
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
     }
 }

@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Web.BusinessLayer.Abstract;
+using Web.DtoLayer.DiscountDto;
+using Web.DtoLayer.FeatureDto;
+using Web.DtoLayer.SliderDto;
+using Web.EntityLayer.Entities;
 
 namespace WebAPI.Controllers
 {
@@ -9,15 +14,61 @@ namespace WebAPI.Controllers
     public class SliderController : ControllerBase
     {
         private readonly ISliderService _sliderService;
-        public SliderController(ISliderService sliderService)
+        private readonly IMapper _mapper;
+        public SliderController(ISliderService sliderService, IMapper mapper)
         {
             _sliderService = sliderService;
+            _mapper = mapper;
         }
+
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult SliderList()
         {
-            var sliders = _sliderService.TGetAll();
-            return Ok(sliders);
+            var value = _mapper.Map<List<ResultSliderDto>>(_sliderService.TGetAll());
+            return Ok(value);
+        }
+        [HttpPost]
+        public IActionResult CreateSlider(CreateSliderDto createSliderDto)
+        {
+            _sliderService.TAdd(new Slider()
+            {
+                Description1 = createSliderDto.Description1,
+                Description2 = createSliderDto.Description2,
+                Description3 = createSliderDto.Description3,
+                Title1 = createSliderDto.Title1,
+                Title2 = createSliderDto.Title2,
+                Title3 = createSliderDto.Title3,
+            });
+            return Ok("Slider başarıyla eklendi");
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteFeature(int id)
+        {
+            var value = _sliderService.TGetById(id);
+            _sliderService.TDelete(value);
+            return Ok("Öne Çıkan bilgisi başarıyla silindi");
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetFeature(int id)
+        {
+            var value = _sliderService.TGetById(id);
+            return Ok(value);
+        }
+        [HttpPut]
+        public IActionResult UpdateFeature(UpdateSliderDto updateSliderDto)
+        {
+            _sliderService.TUpdate(new Slider()
+            {
+                SliderID = updateSliderDto.SliderID,
+                Description1 = updateSliderDto.Description1,
+                Description2 = updateSliderDto.Description2,
+                Description3 = updateSliderDto.Description3,
+                Title1 = updateSliderDto.Title1,
+                Title2 = updateSliderDto.Title2,
+                Title3 = updateSliderDto.Title3,
+            });
+            return Ok("Öne Çıkan bilgisi başarıyla güncellendi");
+
         }
     }
 }

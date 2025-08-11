@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Web.DtoLayer.FeatureDto
 {
-    public class GetFeatureDto
+    public class GetSliderDto
     {
         public int FeatureID { get; set; }
         public string Title1 { get; set; }
