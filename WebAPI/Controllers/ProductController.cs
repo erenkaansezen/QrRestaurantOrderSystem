@@ -52,15 +52,8 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult CreateProduct(CreateProductDto createProductDto)
         {
-            _productService.TAdd(new Product()
-            {
-                Description = createProductDto.Description,
-                ImageUrl = createProductDto.ImageUrl,
-                Price = createProductDto.Price,
-                ProductName = createProductDto.ProductName,
-                ProductStatus = createProductDto.ProductStatus,                
-                CategoryId = createProductDto.CategoryID
-            });
+            var product = _mapper.Map<Product>(createProductDto);
+            _productService.TAdd(product);
             return Ok("Ürün başarıyla eklendi");
         }
         [HttpDelete("{id}")]
@@ -73,26 +66,22 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetProduct(int id)
         {
-            var value = _productService.TGetById(id);
-            return Ok(value);
+            var product = _mapper.Map<GetProductDto>(_productService.TGetById(id));
+            return Ok(product);
         }
         [HttpPut]
         public IActionResult UpdateProduct(UpdateProductDto updateProductDto)
         {
-            _productService.TUpdate(new Product()
-            {
-                ProductID = updateProductDto.ProductID,
-                Description = updateProductDto.Description,
-                ImageUrl = updateProductDto.ImageUrl,
-                Price = updateProductDto.Price,
-                ProductName = updateProductDto.ProductName,
-                ProductStatus = updateProductDto.ProductStatus,
-                CategoryId = updateProductDto.CategoryID
-                
-
-            });
+            var product = _mapper.Map<Product>(updateProductDto);
+            _productService.TUpdate(product);
             return Ok("Ürün başarıyla güncellendi");
 
+        }
+        [HttpGet("GetLastProduct9")]
+        public IActionResult GetLastProduct9()
+        {
+            var products = _productService.TGetLastProduct9();
+            return Ok(products);
         }
 
         //İstatistiksel işlemler

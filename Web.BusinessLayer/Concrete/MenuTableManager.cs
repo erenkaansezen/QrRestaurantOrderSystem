@@ -16,9 +16,25 @@ namespace Web.BusinessLayer.Concrete
         {
             _menuTableDal = menuTableDal;
         }
+
+        public int TActiveMenuTableCount()
+        {
+            return _menuTableDal.ActiveMenuTableCount();
+        }
+
         public void TAdd(MenuTable entity)
         {
             _menuTableDal.Add(entity);
+        }
+
+        public void TChangeTableStatusFalse(int id)
+        {
+            _menuTableDal.ChangeTableStatusFalse(id);
+        }
+
+        public void TChangeTableStatusTrue(int id)
+        {
+            _menuTableDal.ChangeTableStatusTrue(id);
         }
 
         public void TDelete(MenuTable entity)

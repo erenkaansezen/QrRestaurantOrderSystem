@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Web.BusinessLayer.Abstract;
 using Web.DtoLayer.MessageDto;
@@ -11,32 +12,27 @@ namespace WebAPI.Controllers
     public class MessageController : ControllerBase
     {
         private readonly IMessageService _messaageService;
+        private readonly IMapper _mapper;
 
-        public MessageController(IMessageService messageService)
+        public MessageController(IMessageService messageService, IMapper mapper)
         {
             _messaageService = messageService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetMessageList()
         {
-            var values = _messaageService.TGetAll();
-            return Ok(values);
+            var messageList = _mapper.Map<List<ResultMessageDto>>(_messaageService.TGetAll());
+            return Ok(messageList);
         }
 
         [HttpPost]
         public IActionResult CreateMessage(CreateMessageDto createMessageDto)
         {
-            Message message = new Message
-            {
-                NameSurname = createMessageDto.NameSurname,
-                Mail = createMessageDto.Mail,
-                PhoneNumber = createMessageDto.PhoneNumber,
-                Subject = createMessageDto.Subject,
-                Content = createMessageDto.Content,
-                MessageDate = createMessageDto.MessageDate,
-                Status = createMessageDto.Status
-            };
+            createMessageDto.Status = false;
+            createMessageDto.MessageDate = DateTime.Now;
+            var message = _mapper.Map<Message>(createMessageDto);
             _messaageService.TAdd(message);
             return Ok("Mesaj başarılı bir şekilde eklendi");
         }
@@ -52,17 +48,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public IActionResult UpdateMessage(UpdateMessageDto updateMessageDto)
         {
-            Message message = new Message
-            {
-                MessageID = updateMessageDto.MessageID,
-                NameSurname = updateMessageDto.NameSurname,
-                Mail = updateMessageDto.Mail,
-                PhoneNumber = updateMessageDto.PhoneNumber,
-                Subject = updateMessageDto.Subject,
-                Content = updateMessageDto.Content,
-                MessageDate = updateMessageDto.MessageDate,
-                Status = updateMessageDto.Status
-            };
+            var message = _mapper.Map<Message>(updateMessageDto);
             _messaageService.TUpdate(message);
             return Ok("Mesaj başarılı bir şekilde güncellendi");
         }
@@ -70,7 +56,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetMessage(int id)
         {
-            var value = _messaageService.TGetById(id);
+            var value = _mapper.Map<GetMessageDto>(_messaageService.TGetById(id));
             return Ok(value);
         }
     }

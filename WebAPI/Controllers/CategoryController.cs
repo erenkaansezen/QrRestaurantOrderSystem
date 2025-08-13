@@ -45,11 +45,9 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult CreateCategory(CreateCategoryDto createCategoryDto)
         {
-            _categoryService.TAdd(new Category()
-            {
-                CategoryName = createCategoryDto.CategoryName,
-                Status = createCategoryDto.Status
-            });
+            createCategoryDto.Status = true;
+            var value = _mapper.Map<Category>(createCategoryDto);
+            _categoryService.TAdd(value);
             return Ok("Kategori başarıyla eklendi");
         }
         [HttpDelete("{id}")]
@@ -62,18 +60,14 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetCategory(int id)
         {
-            var value = _categoryService.TGetById(id);
+            var value = _mapper.Map<GetCategoryDto>(_categoryService.TGetById(id)); 
             return Ok(value);
         }
         [HttpPut]
         public IActionResult UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
-            _categoryService.TUpdate(new Category()
-            {
-                CategoryID = updateCategoryDto.CategoryID,
-                CategoryName = updateCategoryDto.CategoryName,
-                Status = updateCategoryDto.Status
-            });
+            var category = _mapper.Map<Category>(updateCategoryDto);
+            _categoryService.TUpdate(category);
             return Ok("Kategori başarıyla güncellendi");
 
         }

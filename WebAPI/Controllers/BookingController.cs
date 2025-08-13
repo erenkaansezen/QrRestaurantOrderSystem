@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Web.BusinessLayer.Abstract;
 using Web.DtoLayer.BookingDto;
@@ -11,29 +13,30 @@ namespace WebAPI.Controllers
     public class BookingController : ControllerBase
     {
         private readonly IBookingService _bookingService;
-        public BookingController(IBookingService bookingService)
+        private readonly IMapper _mapper;
+        private readonly IValidator<CreateBookingDto> _createBookingValidator;
+        public BookingController(IBookingService bookingService, IMapper mapper, IValidator<CreateBookingDto> createBookingValidator)
         {
             _bookingService = bookingService;
+            _mapper = mapper;
+            _createBookingValidator = createBookingValidator;
         }
 
         [HttpGet]
         public IActionResult GetBookingList()
         {
-            var values = _bookingService.TGetAll();
+            var values = _mapper.Map<List<ResultBookingDto>>(_bookingService.TGetAll());
             return Ok(values);
         }
         [HttpPost]
         public IActionResult CreateBooking(CreateBookingDto createBookingDto)
         {
-            Booking booking = new Booking()
+            var validationResult = _createBookingValidator.Validate(createBookingDto);
+            if (!validationResult.IsValid)
             {
-                Mail = createBookingDto.Mail,
-                Date = createBookingDto.Date,
-                Name = createBookingDto.Name,
-                PersonCount = createBookingDto.PersonCount,
-                Phone = createBookingDto.Phone,
-                Description = createBookingDto.Description,
-            };
+                return BadRequest(validationResult.Errors);
+            }
+            var booking = _mapper.Map<Booking>(createBookingDto);
             _bookingService.TAdd(booking);
             return Ok("Rezervasyon yapıldı");
         }
@@ -48,22 +51,14 @@ namespace WebAPI.Controllers
         [HttpPut]
         public IActionResult UpdateBooking(UpdateBookingDto updateBookingDto)
         {
-            Booking booking = new Booking()
-            {
-                BookingID = updateBookingDto.BookingID,
-                Mail = updateBookingDto.Mail,
-                Date = updateBookingDto.Date,
-                Name = updateBookingDto.Name,
-                PersonCount = updateBookingDto.PersonCount,
-                Phone = updateBookingDto.Phone,
-            };
+            var booking = _mapper.Map<Booking>(updateBookingDto);
             _bookingService.TUpdate(booking);
             return Ok("Rezervasyon güncellendi");
         }
         [HttpGet("{id}")]
         public IActionResult GetBooking(int id)
         {
-            var value = _bookingService.TGetById(id);
+            var value = _mapper.Map<GetBookingDto>(_bookingService.TGetById(id));
             return Ok(value);
 
         }

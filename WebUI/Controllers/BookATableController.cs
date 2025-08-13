@@ -29,7 +29,12 @@ namespace WebUI.Controllers
             {
                 return RedirectToAction("Index","Default");
             }
-            return View();
+            else
+            {
+                var errorContent = await responseMessage.Content.ReadAsStringAsync();
+                ModelState.AddModelError(string.Empty, "Rezervasyon oluşturulamadı: " + errorContent);
+            }
+                return View();
         }
     }
 }

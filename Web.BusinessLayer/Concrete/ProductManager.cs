@@ -36,6 +36,11 @@ namespace Web.BusinessLayer.Concrete
             return _productDal.GetById(id);
         }
 
+        public List<Product> TGetLastProduct9()
+        {
+            return _productDal.GetLastProduct9();
+        }
+
         public List<Product> TGetProductsWithCategories()
         {
             return _productDal.GetProductsWithCategories();

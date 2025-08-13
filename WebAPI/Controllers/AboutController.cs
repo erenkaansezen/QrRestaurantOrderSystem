@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Web.BusinessLayer.Abstract;
 using Web.DtoLayer.AboutDto;
@@ -11,28 +12,25 @@ namespace WebAPI.Controllers
     public class AboutController : ControllerBase
     {
         private readonly IAboutService _aboutService;
+        private readonly IMapper _mapper;
 
-        public AboutController(IAboutService aboutService)
+        public AboutController(IAboutService aboutService, IMapper mapper)
         {
             _aboutService = aboutService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetAboutList()
         {
             var values = _aboutService.TGetAll();
-            return Ok(values);
+            return Ok(_mapper.Map<List<ResultAboutDto>>(values));
         }
 
         [HttpPost]
         public IActionResult CreateAbout(CreateAboutDto createAboutDto)
         {
-            About about = new About
-            {
-                ImageUrl = createAboutDto.ImageUrl,
-                Title = createAboutDto.Title,
-                Description = createAboutDto.Description
-            };
+            var about = _mapper.Map<About>(createAboutDto);
             _aboutService.TAdd(about);
             return Ok("Hakkında kısımı başarılı bir şekilde eklendi");
         }
@@ -48,13 +46,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public IActionResult UpdateAbout(UpdateAboutDto updateAboutDto)
         {
-            About about = new About
-            {
-                AboutID = updateAboutDto.AboutID,
-                ImageUrl = updateAboutDto.ImageUrl,
-                Title = updateAboutDto.Title,
-                Description = updateAboutDto.Description
-            };
+            var about = _mapper.Map<About>(updateAboutDto);
             _aboutService.TUpdate(about);
             return Ok("Hakkında kısımı başarılı bir şekilde güncellendi");
         }
@@ -62,7 +54,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetAbout(int id)
         {
-            var value = _aboutService.TGetById(id);
+            var value = _mapper.Map<GetAboutDto>(_aboutService.TGetById(id));
             return Ok(value);
         }
     }

@@ -21,10 +21,33 @@ namespace Web.DataAccessLayer.EntityFramework
             using var context = new WebContext();
             return context.MenuTables.Count();
         }
+        public int ActiveMenuTableCount()
+        {
+            using var context = new WebContext();
+            return context.MenuTables.Count(x => x.Status == true);
+        }
         public int NumberOfEmptyTables()
         {
             using var context = new WebContext();
-            return context.Orders.Count(x => x.Description == "Hesap Kapatildi");
+            return context.MenuTables.Count(x => x.Status == false);
+        }
+
+        public void ChangeTableStatusTrue(int id)
+        {
+            using var context = new WebContext();
+            var table = context.MenuTables.Find(id);
+            table.Status = true;
+            context.SaveChanges();
+            
+
+        }
+
+        public void ChangeTableStatusFalse(int id)
+        {
+            using var context = new WebContext();
+            var table = context.MenuTables.Find(id);
+            table.Status = false;
+            context.SaveChanges();
         }
     }
 

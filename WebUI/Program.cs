@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -33,6 +33,19 @@ builder.Services.ConfigureApplicationCookie(opts=>
 });
 var app = builder.Build();
 
+app.UseStatusCodePages(async context =>
+{
+    context.HttpContext.Response.ContentType = "text/html";
+    if (context.HttpContext.Response.StatusCode == 404)
+    {
+        await context.HttpContext.Response.WriteAsync("<h1>Sayfa Bulunamadı</h1>");
+    }
+    else if (context.HttpContext.Response.StatusCode == 500)
+    {
+        await context.HttpContext.Response.WriteAsync("<h1>Sunucu Hatası</h1>");
+    }
+});
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -51,6 +64,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Default}/{action=Index}/{id?}");
 
 app.Run();

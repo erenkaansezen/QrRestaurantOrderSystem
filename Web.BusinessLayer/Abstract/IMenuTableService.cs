@@ -10,7 +10,10 @@ namespace Web.BusinessLayer.Abstract
     public interface IMenuTableService : IGenericService<MenuTable>
     {
         int TMenuTableCount();
+        int TActiveMenuTableCount();
         int TNumberOfEmptyTables();
+        void TChangeTableStatusTrue(int id);
+        void TChangeTableStatusFalse(int id);
 
 
     }

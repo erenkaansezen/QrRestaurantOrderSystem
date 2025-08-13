@@ -29,10 +29,47 @@
 			$("#activeordercount").text(value);
 		});
 		connection.on("ReceiveNumberOfEmptyTables", (value) => {
-			$("#numberofemptytables").text(value);
+			$("#numberofemptytables").empty();
+			$("#numberofemptytables").append(`
+				<div class="d-flex justify-content-between mb-1">
+					<span class="text-muted">Kapalı Masa Sayısı</span>
+					<span class="text-muted fw-bold"> ${value}</span>
+				</div>
+				<div class="progress mb-2" style="height: 7px;">
+				<div class="progress-bar bg-danger" role="progressbar" style="width: ${value}%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="${value}%"></div>
+				</div>
+			`);
 		});
+		connection.on("ReceiveMenuTableCount", (value) => {
+			$("#totalMenuTableCountProgress").empty();
+			$("#totalMenuTableCountProgress").append(`
+				<div class="d-flex justify-content-between mb-1">
+					<span class="text-muted">Toplam Masa Sayısı</span>
+					<span class="text-muted fw-bold"> ${value}</span>
+				</div>
+				<div class="progress mb-2" style="height: 7px;">
+				<div class="progress-bar bg-success" role="progressbar" style="width: ${value}%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="${value}%"></div>
+				</div>
+			`);
+		});
+		connection.on("ReceiveActiveMenuTableCount", (value) => {
+			$("#activeMenuTableCount").empty();
+			$("#totalMenuTableCountProgress").append(`
+				<div class="d-flex justify-content-between mb-1">
+					<span class="text-muted">Aktif Masa Sayısı</span>
+					<span class="text-muted fw-bold"> ${value}</span>
+				</div>
+				<div class="progress mb-2" style="height: 7px;">
+				<div class="progress-bar bg-success" role="progressbar" style="width: ${value}%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="${value}%"></div>
+				</div>
+			`);
+		});
+
 	});
 </script>
+
+@*  *@
+
 <div class="content">
 	<div class="container-fluid">
 		<h4 class="page-title">Restoran Durumları</h4>
@@ -54,73 +91,27 @@
 					<div class="col-md-5">
 						<div class="card">
 							<div class="card-body">
-								<div class="progress-card">
-									<div class="d-flex justify-content-between mb-1">
-										<span class="text-muted">Profit</span>
-										<span class="text-muted fw-bold"> $3K</span>
-									</div>
-									<div class="progress mb-2" style="height: 7px;">
-										<div class="progress-bar bg-success" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="78%"></div>
-									</div>
-								</div>
-								<div class="progress-card">
-									<div class="d-flex justify-content-between mb-1">
-										<span class="text-muted">Orders</span>
-										<span class="text-muted fw-bold"> 576</span>
-									</div>
-									<div class="progress mb-2" style="height: 7px;">
-										<div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="65%"></div>
-									</div>
-								</div>
-								<div class="progress-card">
-									<div class="d-flex justify-content-between mb-1">
-										<span class="text-muted">Tasks Complete</span>
-										<span class="text-muted fw-bold"> 70%</span>
-									</div>
-									<div class="progress mb-2" style="height: 7px;">
-										<div class="progress-bar bg-primary" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="70%"></div>
-									</div>
-								</div>
-								<div class="progress-card">
-									<div class="d-flex justify-content-between mb-1">
-										<span class="text-muted">Open Rate</span>
-										<span class="text-muted fw-bold"> 60%</span>
-									</div>
-									<div class="progress mb-2" style="height: 7px;">
-										<div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="60%"></div>
-									</div>
-								</div>
+								<div class="progress-card" id="totalMenuTableCountProgress"></div>
+								<div class="progress-card" id="activeMenuTableCount"></div>
+								<div class="progress-card" id="numberofemptytables"></div>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="card card-stats">
 							<div class="card-body">
-								<div class="row">
-									<br />
-									<div class="col-5">
-										<div class="icon-big text-center icon-warning">
-											<h2>🍽️</h2>
-										</div>
-									</div>
-									<div class="col-7 d-flex align-items-center">
-										<div class="numbers">
-											<p class="card-category text-center">Dolu Masa Sayısı</p>
-											<h4 class="card-title text-center" id="activeordercount"></h4>
-										</div>
-									</div>
-								</div>
-								<hr />
+								<br />
+								<br />
 								<div class="row">
 									<div class="col-5">
 										<div class="icon-big text-center">
-											<h2>⛩</h2>
+											<h2>✅</h2>
 										</div>
 									</div>
 									<div class="col-7 d-flex align-items-center">
 										<div class="numbers">
-											<p class="card-category text-center">Boş Masa Sayısı</p>
-											<h4 class="card-title text-center" id="numberofemptytables"></h4>
+											<p class="card-category text-center">Aktif Hesap Sayısı</p>
+											<h4 class="card-title text-center" id="activeordercount"></h4>
 										</div>
 									</div>
 								</div>

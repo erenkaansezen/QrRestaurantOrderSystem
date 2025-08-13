@@ -74,6 +74,9 @@ namespace WebAPI.Hubs
 
             var countMenuTable = _menuTableService.TMenuTableCount();
             await Clients.All.SendAsync("ReceiveMenuTableCount", countMenuTable);
+
+            var countActiveMenuTable = _menuTableService.TActiveMenuTableCount();
+            await Clients.All.SendAsync("ReceiveActiveMenuTableCount", countActiveMenuTable);
         }
 
         public async Task SendProgress()

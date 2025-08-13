@@ -29,12 +29,8 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult CreateSocialMedia(CreateSocialMediaDto createSocialMediaDto)
         {
-            _socialMediaService.TAdd(new SocialMedia()
-            {
-                Icon = createSocialMediaDto.Icon,
-                Title = createSocialMediaDto.Title,
-                Url = createSocialMediaDto.Url
-            });
+            var media = _mapper.Map<SocialMedia>(createSocialMediaDto);
+            _socialMediaService.TAdd(media);
             return Ok("Sosyal medya bilgisi başarıyla eklendi");
         }
         [HttpDelete("{id}")]
@@ -47,19 +43,14 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetSocialMedia(int id)
         {
-            var value = _socialMediaService.TGetById(id);
-            return Ok(value);
+            var media = _mapper.Map<GetSocialMediaDto>(_socialMediaService.TGetById(id));
+            return Ok(media);
         }
         [HttpPut]
         public IActionResult UpdateSocialMedia(UpdateSocialMediaDto updateSocialMediaDto)
         {
-            _socialMediaService.TUpdate(new SocialMedia()
-            {
-                SocialMediaID = updateSocialMediaDto.SocialMediaID,
-                Icon = updateSocialMediaDto.Icon,
-                Title = updateSocialMediaDto.Title,
-                Url = updateSocialMediaDto.Url
-            });
+            var media = _mapper.Map<SocialMedia>(updateSocialMediaDto);
+            _socialMediaService.TUpdate(media);
             return Ok("Sosyal medya bilgisi başarıyla güncellendi");
 
         }

@@ -29,16 +29,8 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult CreateTestimoinal(CreateTestimonialDto createTestimonialDto)
         {
-            _testimonialService.TAdd(new Testimonial()
-            {
-                Comment = createTestimonialDto.Comment,
-                ImageUrl = createTestimonialDto.ImageUrl,
-                Name = createTestimonialDto.Name,
-                Status = createTestimonialDto.Status,
-                Title = createTestimonialDto.Title
-                
-
-            });
+            var testimonial = _mapper.Map<Testimonial>(createTestimonialDto);
+            _testimonialService.TAdd(testimonial);
             return Ok("Yorum bilgisi başarıyla eklendi");
         }
         [HttpDelete("{id}")]
@@ -51,23 +43,14 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetTestimoinal(int id)
         {
-            var value = _testimonialService.TGetById(id);
-            return Ok(value);
+            var testimonial = _mapper.Map<GetTestimonailDto>(_testimonialService.TGetById(id));
+            return Ok(testimonial);
         }
         [HttpPut]
         public IActionResult UpdateTestimoinal(UpdateTestimonialDto updateTestimonialDto)
         {
-            _testimonialService.TUpdate(new Testimonial()
-            {
-                TestimonialID = updateTestimonialDto.TestimonialID,
-                Comment = updateTestimonialDto.Comment,
-                ImageUrl = updateTestimonialDto.ImageUrl,
-                Name = updateTestimonialDto.Name,
-                Status = updateTestimonialDto.Status,
-                Title = updateTestimonialDto.Title
-
-
-            });
+            var testimonial = _mapper.Map<Testimonial>(updateTestimonialDto);
+            _testimonialService.TUpdate(testimonial);
             return Ok("Yorum bilgisi başarıyla güncellendi");
 
         }

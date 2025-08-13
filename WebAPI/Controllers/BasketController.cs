@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
             {
                 ProductID = createBasketDto.ProductID,
                 Count = 1,
-                MenuTableId = 4,
+                MenuTableId = createBasketDto.MenuTableId,
                 Price = context.Products
                     .Where(x => x.ProductID == createBasketDto.ProductID)
                     .Select(x => x.Price).FirstOrDefault(),

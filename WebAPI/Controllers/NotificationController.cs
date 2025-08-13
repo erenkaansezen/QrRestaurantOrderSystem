@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Web.BusinessLayer.Abstract;
 using Web.DtoLayer.NotificationDto;
@@ -11,14 +12,16 @@ namespace WebAPI.Controllers
     public class NotificationController : ControllerBase
     {
         private readonly INotificationService _notificationService;
-        public NotificationController(INotificationService notificationService)
+        private readonly IMapper _mapper;
+        public NotificationController(INotificationService notificationService, IMapper mapper)
         {
             _notificationService = notificationService;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult GetAllNotifications()
         {
-            var notifications = _notificationService.TGetAll();
+            var notifications = _mapper.Map<List<ResultNotificationDto>>(_notificationService.TGetAll());
             return Ok(notifications);
         }
         [HttpGet("count")]
@@ -36,14 +39,9 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult CreateNotification(CreateNotificationDto createNotificationDto)
         {
-            Notification notification = new Notification
-            {
-                Type = createNotificationDto.Type,
-                Icon = createNotificationDto.Icon,
-                Description = createNotificationDto.Description,
-                Date = Convert.ToDateTime(DateTime.Now.ToShortDateString()),
-                Status = false,
-            };
+            createNotificationDto.Status = false; // Yeni bildirimler başlangıçta false olarak ayarlanır
+            createNotificationDto.Date = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+            var notification = _mapper.Map<Notification>(createNotificationDto);
             _notificationService.TAdd(notification);
             return Ok("Bildirim Ekleme İşlemi Yapıldı");
         }
@@ -63,15 +61,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public IActionResult UpdateNotification(UpdateNotificationDto updateNotificationDto)
         {
-            Notification notification = new Notification
-            {
-                NotificationID = updateNotificationDto.NotificationID,
-                Type = updateNotificationDto.Type,
-                Icon = updateNotificationDto.Icon,
-                Description = updateNotificationDto.Description,
-                Date = updateNotificationDto.Date,
-                Status = updateNotificationDto.Status
-            };
+            var notification = _mapper.Map<Notification>(updateNotificationDto);    
             _notificationService.TUpdate(notification);
             return Ok("Bildirim Güncelleme İşlemi Yapıldı");
         }

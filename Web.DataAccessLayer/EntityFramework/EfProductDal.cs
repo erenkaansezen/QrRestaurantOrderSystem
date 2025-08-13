@@ -75,5 +75,13 @@ namespace Web.DataAccessLayer.EntityFramework
             return context.Products.Where(x => x.CategoryId == (context.Categories.Where(y => y.CategoryName == "Burgerler").Select(y => y.CategoryID).FirstOrDefault()))
                 .Average(x => x.Price);
         }
+
+        public List<Product> GetLastProduct9()
+        {
+            using var context = new WebContext();
+            return context.Products                
+                .Take(9)
+                .ToList();
+        }
     }
 }
